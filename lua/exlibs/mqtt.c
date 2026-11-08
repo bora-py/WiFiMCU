@@ -151,11 +151,33 @@ MQTT_start:
     }
   }
   //check goto disconnect
-    for(i=0;i<MAX_MQTT_NUM;i++)
+  for(i=0;i<MAX_MQTT_NUM;i++)
+  {
+    if(pmqtt[i] !=NULL && pmqtt[i]->reqClose==true) closeMqtt(i);
+  }
+  for(i=0;i<MAX_MQTT_NUM;i++)
+  {
+    if(pmqtt[i] !=NULL) break;
+  }
+  if(i==MAX_MQTT_NUM) goto exit;
+
+  for(i=0;i<MAX_MQTT_NUM;i++)
     if( pmqtt[i] !=NULL && pmqtt[i]->req_goto_disconect==true) goto MQTT_disconnect;
   mqtt_log("Go to while\r\n");
   while(1)
   {
+//check close
+    for(i=0;i<MAX_MQTT_NUM;i++)
+    {
+      if(pmqtt[i]==NULL|| !pmqtt[i]->reqClose) continue;
+      closeMqtt(i);
+    }
+    for(i=0;i<MAX_MQTT_NUM;i++)
+    {
+      if(pmqtt[i] !=NULL) break;
+    }
+    if(i==MAX_MQTT_NUM) goto exit;
+
 //check subscribe or unSubcribe
     for(i=0;i<MAX_MQTT_NUM;i++)
     {
@@ -249,12 +271,26 @@ MQTT_start:
 MQTT_disconnect:
   for(i=0;i<MAX_MQTT_NUM;i++)
   {
+    if(pmqtt[i] !=NULL && pmqtt[i]->reqClose==true)
+    {
+      closeMqtt(i);
+    }
+  }
+  for(i=0;i<MAX_MQTT_NUM;i++)
+  {
+    if(pmqtt[i] !=NULL) break;
+  }
+  if(i==MAX_MQTT_NUM) goto exit;
+
+  for(i=0;i<MAX_MQTT_NUM;i++)
+  {
     if(pmqtt[i] !=NULL && pmqtt[i]->req_goto_disconect==true)
     {
       pmqtt[i]->req_goto_disconect = false;
       pmqtt[i]->reqStart=true;
       mqtt_log("[mqtt:%d] client disconnected,reconnect...\r\n",i);
       pmqtt[i]->n.disconnect(&(pmqtt[i]->n));
+      MQTTClientDeinit(&(pmqtt[i]->c));
       if(pmqtt[i]->cb_ref_offline  == LUA_NOREF) continue;
       lua_rawgeti(gL, LUA_REGISTRYINDEX, pmqtt[i]->cb_ref_offline);
       lua_call(gL, 0, 0);
@@ -295,6 +331,7 @@ static int lmqtt_new( lua_State* L )
   if(k==MAX_MQTT_NUM) return luaL_error( L, "Max MQTT Number is reached" );
   pmqtt[k] = (mqtt_t*)malloc(sizeof(mqtt_t));
   if (pmqtt[k] ==NULL) return luaL_error( L, "memery allocated failed" );
+  memset(pmqtt[k], 0, sizeof(mqtt_t));
   MQTTPacket_connectData cd=MQTTPacket_connectData_initializer;
   memcpy(&(pmqtt[k]->connectData),&cd,sizeof(MQTTPacket_connectData));
   pmqtt[k]->connectData.willFlag = 0;
@@ -304,7 +341,7 @@ static int lmqtt_new( lua_State* L )
   pmqtt[k]->connectData.password.cstring = (char*)pass;
   pmqtt[k]->connectData.keepAliveInterval = keepalive;
   pmqtt[k]->connectData.cleansession = 1;
-  //pmqtt[k]->ssl_settings.ssl_enable = false;
+  pmqtt[k]->ssl_settings.ssl_enable = false;
   pmqtt[k]->reqStart = false;
   pmqtt[k]->reqClose = false;
   pmqtt[k]->cb_ref_connect = LUA_NOREF;
