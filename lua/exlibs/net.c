@@ -303,7 +303,7 @@ void _micoNotify_TCPClientConnectedHandler(int fd)
 /*
   step1:check if ACTION required  gotip/connect/disconnect
   step2:check if event is set
-    2.1,tcpserver accept£ºnew a serverclt
+    2.1,tcpserver accept: new a serverclt
     2.2,tcp serverclt recieve data or disconnect
     2.3,udp server:recieve or disconnect
     2.4,tcp client/udp client: or recieve or disconnect

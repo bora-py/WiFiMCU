@@ -1,15 +1,22 @@
 ﻿
-# **WiFiMCU** #
-[Latest Firmware Download ](https://github.com/SmartArduino/WiFiMCU/releases)[![Download](https://img.shields.io/badge/download-~200k-orange.svg)](https://github.com/SmartArduino/WiFiMCU/releases)<br/>
-<br/>
-WiFiMCU is developed based on EMW3165 module produced by [MXCHIP.INC](http://www.mxchip.com/). A Lua interpreter is builded inside with hardware support. A light weight file system and socket protocols can help to realize IoT development easily and quickly. Basically, you can load Lua scripts on your device and then run it on board with nothing more than a terminal connection. <br/>
-Enjoy Programming!<br/>
+# **WiFiMCU (Modernized 2026 Edition)** #
+[![Fork Maintained](https://img.shields.io/badge/maintained-2026-brightgreen.svg)](https://github.com/bora-py/WiFiMCU)
+[![Firmware](https://img.shields.io/badge/firmware-v0.9.9--patch-blue.svg)](https://github.com/bora-py/WiFiMCU)
+
+WiFiMCU is an open-source Lua firmware developed for the **EMW3165 / EMW3165-P** Wi-Fi module (STM32F411CE ARM Cortex-M4 100MHz + Broadcom BCM43362 Wi-Fi) by MXCHIP / SmartArduino.
+
+> **2026 Community Maintenance & Fixes (by @bora-py):**
+> - **Resolved ARM Cortex-M4 Hard Fault in MQTT:** Fixed uninitialized heap memory crash in `lmqtt_new` by ensuring `ssl_enable = false` and clean `memset` allocation.
+> - **Resolved Memory Leak in MQTT Reconnect:** Fixed ~1KB per reconnect socket buffer leak via `MQTTClientDeinit(&(pmqtt[i]->client))`.
+> - **Graceful RTOS Thread Exit:** Fixed hanging MQTT teardown when network drops; frees FreeRTOS task memory safely.
+> - **Fixed GPIO Pull-Up Bug:** Fixed `gpio.INPUT_PULL_UP` macro being erroneously mapped to `INPUT_PULL_DOWN` in `luaopen_gpio`.
+> - **Toolchain Sanitization:** Fixed legacy non-ASCII characters in `net.c` preventing modern compiler builds.
 
 <pre>
   ;   .  . .___ .  . __ .  .      ,--.
  ["]  |  |o[__ o|\/|/  `|  | ,<-|__oo|
 /[_]\ |/\|||   ||  |\__.|__| /  |//  |
- ] [                            /o|__|  [www.wifimcu.com@2015]
+ ] [                            /o|__|  [bora-py/WiFiMCU @2026]
 </pre>
 
 #Overview

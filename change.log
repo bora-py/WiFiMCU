@@ -1,3 +1,14 @@
+v0.9.9-patch @2026-11-08 (by bora-py)
+MQTT module:
+      - Fixed ARM Cortex-M4 Hard Fault on lmqtt_new by setting ssl_enable = false and zeroing memory with memset
+      - Fixed memory leak (~1KB) per reconnect cycle by adding MQTTClientDeinit
+      - Fixed mqtt.close hanging when server unreachable; added graceful thread exit to release RTOS resources
+GPIO module:
+      - Fixed INPUT_PULL_UP bug in luaopen_gpio (was erroneously assigned to INPUT_PULL_DOWN)
+System:
+      - Cleaned non-ascii character sequence in net.c to ensure clean C compiling across all toolchains
+      - Updated version branding and verified with EMW3165-P standalone deployment
+
 v0.9.8.1 @2016-02-22
 MQTT module:
       Fixed mqtt publish bug
