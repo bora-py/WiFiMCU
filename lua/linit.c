@@ -24,6 +24,8 @@
 
 LUALIB_API int luaopen_platform (lua_State *L);
 int luaopen_dummy(lua_State *L);
+int luaopen_cjson(lua_State *L);
+int luaopen_sntp(lua_State *L);
 
 // Declare table
 #if defined(LUA_PLATFORM_LIBS_ROM) && LUA_OPTIMIZE_MEMORY == 2
@@ -184,6 +186,12 @@ extern const luaR_entry sensor_map[];
 #ifdef USE_MQTT_MODULE
 extern const luaR_entry mqtt_map[];
 #endif
+#ifdef USE_CJSON_MODULE
+extern const luaR_entry cjson_map[];
+#endif
+#ifdef USE_SNTP_MODULE
+extern const luaR_entry sntp_map[];
+#endif
 
 
 const luaR_table lua_rotable[] = 
@@ -233,6 +241,12 @@ const luaR_table lua_rotable[] =
 #endif    
 #ifdef USE_MQTT_MODULE
     {LUA_MQTTLIBNAME, mqtt_map},
+#endif    
+#ifdef USE_CJSON_MODULE
+    {"cjson", cjson_map},
+#endif
+#ifdef USE_SNTP_MODULE
+    {"sntp", sntp_map},
 #endif    
     
 #if defined(LUA_PLATFORM_LIBS_ROM) && LUA_OPTIMIZE_MEMORY == 2
@@ -307,6 +321,14 @@ LUALIB_API void luaL_openlibs (lua_State *L) {
 
 #ifdef USE_MQTT_MODULE
   luaopen_mqtt(L);
+#endif
+
+#ifdef USE_CJSON_MODULE
+  luaopen_cjson(L);
+#endif
+
+#ifdef USE_SNTP_MODULE
+  luaopen_sntp(L);
 #endif
 }
 

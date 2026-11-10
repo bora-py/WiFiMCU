@@ -2,9 +2,9 @@
 #ifndef __USER_CONFIG_H__
 #define __USER_CONFIG_H__
 
-#define MCU_VERSION	"WiFiMCU 0.9.9-patch"
-#define PRT_VERSION "Ver. 0.9.9-patch"
-#define BUILD_DATE	"build 20261108"
+#define MCU_VERSION	"WiFiMCU 1.0.0"
+#define PRT_VERSION "Ver. 1.0.0"
+#define BUILD_DATE	"build 20261110"
 
 #define USE_GPIO_MODULE
 #define USE_ADC_MODULE
@@ -21,6 +21,8 @@
 #define USE_SENSOR_MODULE
 #define USE_OLED_MODULE
 #define USE_MQTT_MODULE
+#define USE_CJSON_MODULE
+#define USE_SNTP_MODULE
 
 #define MOD_REG_NUMBER( L, name, val )\
   lua_pushnumber( L, val );\
