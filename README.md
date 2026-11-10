@@ -15,8 +15,12 @@ This repository is an actively maintained fork of the original [SmartArduino/WiF
   ;   .  . .___ .  . __ .  .      ,--.
  ["]  |  |o[__ o|\/|/  `|  | ,<-|__oo|
 /[_]\ |/\|||   ||  |\__.|__| /  |//  |
- ] [                            /o|__|  [WiFiMCU Community Edition v1.0]
+ ] [                            /o|__|  [WiFiMCU Community Edition v1.0 by @bora-py]
 ```
+
+<p align="center">
+  <img src="emw3165p.png" alt="WiFiMCU EMW3165-P Pinout and Board Layout" width="700">
+</p>
 
 ### Key Improvements in v1.0
 - **`cjson` Module:** Embedded JSON encoder and decoder (`cjson.encode()`, `cjson.decode()`) implemented in C. No need for slow, memory-heavy string pattern matching.
@@ -88,6 +92,11 @@ mqtt.start(m, "192.168.1.50", 1883)
    python tools/flash_firmware.py COM3
    ```
 3. Type `6` to boot into the firmware.
+
+### License & Acknowledgments
+- Original project: [SmartArduino / MXCHIP (2015)](https://github.com/SmartArduino/WiFiMCU)
+- Community Edition: [@bora-py](https://github.com/bora-py) (2026)
+- Released under the MIT License.
 
 ---
 
